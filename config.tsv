@@ -1,0 +1,136 @@
+################
+# Tools to Run #
+################
+
+BSmooth	TRUE
+DSS	TRUE
+MethylKit	TRUE
+Metilene	TRUE
+RnBeads	TRUE
+
+########################
+# Inputs for all Tools #
+########################
+
+# Minimum read coverage required for the entries in the bed input files
+Minimum Read Coverage	10
+
+# Indicated whether the methylation information is for the single strands or merged
+Merged	TRUE
+
+# Number of Threads
+Number of Threads	10
+
+########################
+# Filtering of outputs #
+########################
+
+# Minimum Length of a DMR
+Minimum DMR Length	0
+
+# The minimum mean methylation difference for calling DMRs
+Minimum Mean Meth Difference	0.0
+# #0.1 is default, but IDR requires also non-significant entries
+
+# Maximum pvalue allowed
+P-value Cutoff	0.01
+
+############################
+# Inputs for DSS, Metilene #
+############################
+
+# When two DMRs are very close to each other and the distance (in bps) is less than this number, they will be merged into one.
+Maximum Distance between two CpGs in one DMR	300
+
+
+#######################################
+# Inputs for DSS, Metilene, MethylKit #
+#######################################
+
+# The minimum # of CpGs in a DMR
+Minimum Number of CpGs	3
+
+#######################
+# Inputs for Metilene #
+#######################
+
+# Minimal # of non-missing values for estimating missing values in g1*
+Minimal Number of Non-Missing Values in g1	80
+
+# Minimal # of non-missing values for estimating missing values in g2*
+Minimal Number of Non-Missing Values in g2	80
+
+# Stringency of the valley filter (0.0 - 1.0)
+Stringency of Valley Filter	0.7
+
+##################
+# Inputs for DSS #
+##################
+
+# A flag to indicate whether to apply smoothing in estimating mean methylation levels.
+Smoothing	TRUE
+
+Size of Smoothing Window [bp]	1000
+
+# A flag to indicate whether the dispersion in two groups are deemed equal. The dispersion shrinkages are performed on two conditions independently.
+Equal Dispersion	FALSE
+
+# In all DMRs, the percentage of CG sites with significant p-values  must be greater than this threshold. This is mainly used for correcting the effects of merging of nearby DMRs.
+Percentage of CG sites with significant p-values per DMR	0.5
+
+# A threshold for defining DML. In DML testing procedure, hypothesis test that the two groups means are equal is conducted at each CpG site. Here if ’delta’ is specified, the function will compute the posterior probability that the difference of the means are greater than delta,and then call DML based on that. For general design, this has to be set to 0.
+DML Delta	0
+
+# When delta is not specified, this is the threshold of p-values for defining DML, e.g. Loci with p-values less than this threshold will be deemed DMLs. When delta is specified, CpG sites with posterior probability greater than 1-p.threshold are deemed DML.
+DML p threshold	0.005
+
+# A threshold for defining DMR. In DML detection procedure, a hypothesis test that the two groups means are equal is conducted at each CpG site. Here if ’delta’ is specified, the function will compute the posterior probability that the difference of the means are greater than delta, and then construct DMR based on that.
+DMR Delta	0.01
+
+# A threshold of p-values for calling DMR. Loci with p-values less than this threshold will be picked and joint to form the DMRs.
+DMR p threshold	0.005
+
+####################################
+# Inputs for MethylKit and RnBeads #
+####################################
+
+# Minimum number of samples per replicate needed to cover a region
+# Missing data for uncovered bases/regions will appear as NAs
+Minimum Sample Number per Group	3
+
+# Size of tiling window
+Tiling Window Size	1000
+
+# Step size of tiling windows
+Tiling Window Step Size	1000
+
+
+######################
+# Inputs for RnBeads #
+######################
+
+# Maximum quantile of NAs allowed per site. This must be a value between 0 and 1.
+Max Quantile of NAs per Site	0
+
+######################
+# Inputs for BSmooth #
+######################
+
+# Minimum number of methylation loci in a smoothing window
+Min Number of Loci in Window	70
+
+# Minimum smoothing window, in bases
+Min Smoothing Window	1000
+
+# Maximum gap between two methylation loci, before the smoothing is broken across the gap
+Maximum Gap Loci	100000000
+
+# Should local correction be used
+Local Correction	TRUE
+
+#########
+# Plots #
+#########
+
+# When set to TRUE will create venn diagrams of the output data
+Venn Diagrams	TRUE
