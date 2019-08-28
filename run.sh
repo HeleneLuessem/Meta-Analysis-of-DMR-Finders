@@ -25,53 +25,56 @@ mkdir -p 02_data
 mkdir -p 02_data/prep
 mkdir -p 03_results
 
-# Start to create Snakemake file
-rm -f snakefile
-echo -e "configfile: \"config.yaml\"\n\n" >> snakefile
-
-# Add Pre-Processing to Snakemake file
-echo -e "rule run_pre_processing:\n\toutput:\n\t\t\"data_prep.csv\"\n\tinput:\n\t\t\"data.csv\"\n\t\t\"config.tsv\"\n\tshell:\n\t\t\"01_scripts/Pre-Processing/pre-process.sh\"\n\n" >> snakefile
-
 # Read in relevant parameters from config file
 while IFS=$'\t', read -r -a config
 	do
 		case "${config[0]}" in
-			"BSmooth")	bSmooth=${config[1]};;
-			"DSS")		dss=${config[1]};;
-			"MethylKit")	methylKit=${config[1]};;
-			"Metilene")	metilene=${config[1]};;
-			"RnBeads")	rnBeads=${config[1]};;
+			"BSmooth")	bSmooth=${config[1]}; 	t1="\n\t\t\"BSmooth_dummy.txt\",";;
+			"DSS")		dss=${config[1]}; 	t2="\n\t\t\"DSS_dummy.txt\",";;
+			"MethylKit")	methylKit=${config[1]}; t3="\n\t\t\"MethylKit_dummy.txt\",";;
+			"Metilene")	metilene=${config[1]};	t4="\n\t\t\"Metilene_dummy.txt\",";;
+			"RnBeads")	rnBeads=${config[1]};	t5="\n\t\t\"RnBeads_dummy.txt\"";;
 		esac
 	done < $path_to_config_file
+
+# Start to create Snakemake file
+rm -f snakefile
+echo -e "configfile: \"config.yaml\"\n\n" >> snakefile
+
+# Add dummy rule
+echo -e "rule dummy:\n\tinput:$t1$t2$t3$t4$t5\n\tshell:\n\t\t\"rm -rf BSmooth_dummy.txt\"\n\n" >> snakefile
+
+# Add pre-processing rule
+echo -e "rule run_pre_processing:\n\toutput:\n\t\t\"data_prep.csv\"\n\tinput:\n\t\t\"data.csv\",\n\t\t\"config.tsv\"\n\tshell:\n\t\t\"01_scripts/Pre-Processing/pre-process.sh\"\n\n" >> snakefile
 
 echo -e "The following tools will be executed:\n"
 if [ $bSmooth = "TRUE" ]; then
 	echo " - BSmooth"
-	echo -e "rule run_BSmooth:\n\toutput: \n\t\t\"02_data/BSmooth/group_A.txt\",\n\t\t\"02_data/BSmooth/group_B.txt\",\n\t\t\"03_results/BSmooth/BSmooth_DMRs_raw.tsv\"\n\t\t\"03_results/BSmooth/BSmooth_DMRs_std.tsv\"\n\tconda:\n\t\t\"envs/BSmooth.yml\"\n\tshell:\n\t\t\"01_scripts/BSmooth/run.sh -i -d -o\"\n\n" >> snakefile
+	echo -e "rule run_BSmooth:\n\tinput:\n\t\t\"data_prep.csv\"\n\toutput:\n\t\t\"02_data/BSmooth/group_A.txt\",\n\t\t\"02_data/BSmooth/group_B.txt\",\n\t\t\"03_results/BSmooth/BSmooth_DMRs_raw.tsv\",\n\t\t\"03_results/BSmooth/BSmooth_DMRs_std.tsv\",\n\t\t\"BSmooth_dummy.txt\"\n\tconda:\n\t\t\"envs/BSmooth.yml\"\n\tshell:\n\t\t\"01_scripts/BSmooth/run.sh -i -d -o\"\n\n" >> snakefile
 fi
 	mkdir -p 02_data/BSmooth
 	mkdir -p 03_results/BSmooth
 if [ $dss = "TRUE" ]; then
 	echo " - DSS"
-	echo -e "rule run_DSS:\n\toutput: \n\t\t\"02_data/DSS/group_A.txt\",\n\t\t\"02_data/DSS/group_B.txt\",\n\t\t\"03_results/DSS/DSS_DMRs_raw.tsv\"\n\t\t\"03_results/DSS/DSS_DMRs_std.tsv\"\n\tconda:\n\t\t\"envs/DSS.yml\"\n\tshell:\n\t\t\"01_scripts/DSS/run.sh -i -d -o\"\n\n" >> snakefile
+	echo -e "rule run_DSS:\n\tinput:\n\t\t\"data_prep.csv\"\n\toutput:\n\t\t\"02_data/DSS/group_A.txt\",\n\t\t\"02_data/DSS/group_B.txt\",\n\t\t\"03_results/DSS/DSS_DMRs_raw.tsv\",\n\t\t\"03_results/DSS/DSS_DMRs_std.tsv\",\n\t\t\"DSS_dummy.txt\"\n\tconda:\n\t\t\"envs/DSS.yml\"\n\tshell:\n\t\t\"01_scripts/DSS/run.sh -i -d -o\"\n\n" >> snakefile
 	mkdir -p 02_data/DSS
 	mkdir -p 03_results/DSS
 fi
 if [ $methylKit = "TRUE" ]; then
 	echo " - MethylKit"
-	echo -e "rule run_MethylKit:\n\toutput: \n\t\t\"03_results/MethylKit/MethylKit_DMRs_raw.tsv\"\n\t\t\"03_results/MethylKit/MethylKit_DMRs_std.tsv\"\n\tconda:\n\t\t\"envs/MethylKit.yml\"\n\tshell:\n\t\t\"01_scripts/MethylKit/run.sh -i -d -o\"\n\n" >> snakefile
+	echo -e "rule run_MethylKit:\n\tinput:\n\t\t\"data_prep.csv\"\n\toutput:\n\t\t\"03_results/MethylKit/MethylKit_DMRs_raw.tsv\",\n\t\t\"03_results/MethylKit/MethylKit_DMRs_std.tsv\",\n\t\t\"MethylKit_dummy.txt\"\n\tconda:\n\t\t\"envs/MethylKit.yml\"\n\tshell:\n\t\t\"01_scripts/MethylKit/run.sh -i -d -o\"\n\n" >> snakefile
 	mkdir -p 02_data/MethylKit
 	mkdir -p 03_results/MethylKit
 fi
 if [ $metilene = "TRUE" ]; then
 	echo " - Metilene"
-	echo -e "rule run_Metilene:\n\toutput: \n\t\t\"03_results/Metilene/Metielne_DMRs_raw.tsv\"\n\t\t\"03_results/Metilene/Metilene_DMRs_std.tsv\"\n\tconda:\n\t\t\"envs/Metilene.yml\"\n\tshell:\n\t\t\"01_scripts/Metilene/run.sh -i -d -o\"\n\n" >> snakefile
+	echo -e "rule run_Metilene:\n\tinput:\n\t\t\"data_prep.csv\"\n\toutput:\n\t\t\"03_results/Metilene/Metielne_DMRs_raw.tsv\",\n\t\t\"03_results/Metilene/Metilene_DMRs_std.tsv\",\n\t\t\"Metilene_dummy.txt\"\n\tconda:\n\t\t\"envs/Metilene.yml\"\n\tshell:\n\t\t\"01_scripts/Metilene/run.sh -i -d -o\"\n\n" >> snakefile
 	mkdir -p 02_data/Metilene
 	mkdir -p 03_results/Metilene
 fi
 if [ $rnBeads = "TRUE" ]; then
 	echo " - RnBeads"
-	echo -e "rule run_RnBeads:\n\toutput: \n\t\t\"02_data/RnBeads/sample_annotation.csv\"\n\t\t\"03_results/RnBeads/RnBeads_DMRs_raw.tsv\"\n\t\t\"03_results/RnBeads/RnBeads_DMRs_std.tsv\"\n\tconda:\n\t\t\"envs/RnBeads.yml\"\n\tshell:\n\t\t\"01_scripts/RnBeads/run.sh -i -d -o\"\n\n" >> snakefile
+	echo -e "rule run_RnBeads:\n\tinput:\n\t\t\"data.csv\"\n\toutput: \n\t\t\"02_data/RnBeads/sample_annotation.csv\",\n\t\t\"03_results/RnBeads/RnBeads_DMRs_raw.tsv\",\n\t\t\"03_results/RnBeads/RnBeads_DMRs_std.tsv\",\n\t\t\"RnBeads_dummy.txt\"\n\tconda:\n\t\t\"envs/RnBeads.yml\"\n\tshell:\n\t\t\"01_scripts/RnBeads/run.sh -i -d -o\"\n\n" >> snakefile
 	mkdir -p 02_data/RnBeads
 	mkdir -p 03_results/RnBeads
 fi
