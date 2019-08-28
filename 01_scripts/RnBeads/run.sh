@@ -1,7 +1,7 @@
 name="run.sh"
 path_to_data_file="data.csv"
 #path_to_data_file="../../data_head.csv"
-ath_to_scripts_folder="01_scripts/RnBeads/scripts"
+path_to_scripts_folder="01_scripts/RnBeads/scripts"
 path_to_data_folder="02_data"
 path_to_results_folder="03_results"
 path_to_sample_annotation="$path_to_data_folder/RnBeads/sample_annotation.csv"
