@@ -68,8 +68,8 @@ fi
 
 # (2) Run RnBeads
 if [ "$callDMRs" = "TRUE" ]; then
-	mkdir -p $path_to_results_folder/RnBeads
-	Rscript $path_to_scripts_folder/RnBeads.R
+	mkdir -p "$path_to_results_folder/RnBeads"
+	Rscript "$path_to_scripts_folder/RnBeads.R"
 	# Create Raw Files
 	#cp $path_to_results_folder/RnBeads/reports/differential_methylation_data/diffMethTable_region_cmp1_genes.csv $path_to_results_folder/RnBeads/RnBeads_DMRs_genes_raw.tsv
 	#cp $path_to_results_folder/RnBeads/reports/differential_methylation_data/diffMethTable_region_cmp1_promoters.csv $path_to_results_folder/RnBeads/RnBeads_DMRs_promoters_raw.tsv
