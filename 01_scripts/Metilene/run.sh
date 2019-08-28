@@ -122,4 +122,4 @@ if [ "$standardize" = "TRUE" ]; then
 	echo -e "Results are now in standard format: Chr Start End #CpGs meanMet1 meanMet2 MetDiff p (2D KS) p (MWU)q-value\n"	
 fi 
 
-
+touch Metilene_dummy.txt

@@ -90,4 +90,6 @@ if [ "$standardize" = "TRUE" ]; then
 	#cat $path_to_results_folder/RnBeads/RnBeads_DMRs_genes_std.tsv $path_to_results_folder/RnBeads/RnBeads_DMRs_promoters_std.tsv $path_to_results_folder/RnBeads/RnBeads_DMRs_tiling_std.tsv $path_to_results_folder/RnBeads/RnBeads_DMRs_cpgislands_std.tsv > $path_to_results_folder/RnBeads/RnBeads_DMRs_std.tsv
 	#rm -rf $path_to_results_folder/RnBeads/reports 
 	echo -e "Results are now in standard format: Chr Start End #CpGs meanMet1 meanMet2 MetDiff QualityMeasure\n"
-fi 
+fi
+
+touch RnBeads_dummy.txt

@@ -78,4 +78,4 @@ if [ "$standardize" = "TRUE" ]; then
 	echo -e "Results are now in standard format: Chr Start End #CpGs meanMet1 meanMet2 MetDiff QualityMeasure\n"
 fi 
 
-
+touch BSmooth_dummy.txt

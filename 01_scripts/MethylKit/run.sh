@@ -100,3 +100,5 @@ if [ "$standardize" = "TRUE" ]; then
 	awk -vOFS='\t' '{print($2, $3, $4, "NA", "NA", "NA", $8, $6, $7)}' "$path_to_results_folder/MethylKit/MethylKit_DMRs_raw.tsv" > "$path_to_results_folder/MethylKit/MethylKit_DMRs_std.tsv"
 	echo -e "Results are now in standard format: Chr Start End #CpGs meanMet1 meanMet2 MetDiff QualityMeasure\n"
 fi 
+
+touch MethylKit_dummy.txt
