@@ -1,7 +1,7 @@
 .libPaths("/home/users/s9helues/miniconda2/envs/DSS/lib/R/library")
 suppressPackageStartupMessages(library(DSS))
 
-path_to_config_file<-"../../config_DMR_DSS_Run1.tsv"
+path_to_config_file<-"config.tsv"
 
 # Set to Default
 # dmlTest

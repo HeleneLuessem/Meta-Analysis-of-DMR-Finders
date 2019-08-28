@@ -5,12 +5,12 @@
 #	* Extra Chromosomes removed
 
 name="run.sh"
-path_to_config_file="../../config.tsv"
-path_to_data_file="../../data_prep_10.csv"
+path_to_config_file="config.tsv"
+path_to_data_file="data_prep.csv"
 
-path_to_scripts_folder="scripts"
-path_to_data_folder="../../02_data"
-path_to_results_folder="../../03_results"
+path_to_scripts_folder="01_scripts/Metilene/scripts"
+path_to_data_folder="02_data"
+path_to_results_folder="03_results"
 
 printHelp(){
 echo -e "" >&2

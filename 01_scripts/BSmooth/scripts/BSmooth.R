@@ -1,6 +1,6 @@
 suppressPackageStartupMessages(library(bsseq))
 
-path_to_config_file <- "../../config_BS.tsv"
+path_to_config_file <- "config.tsv"
 
 # Agruments are:
 # [1] File with list of files from group A

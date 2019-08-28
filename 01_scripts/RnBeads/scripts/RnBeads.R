@@ -1,27 +1,26 @@
 cat("Load library RnBeads\n")
-#suppressPackageStartupMessages(
-library(RnBeads)
-library(RnBeads.hg38)
+suppressPackageStartupMessages(library(RnBeads))
+suppressPackageStartupMessages(library(RnBeads.hg38))
 cat("Done\n\n")
 
 # Path to file containing the tool's parameters
-path_to_config_file<-"../../config_RnB.tsv"
+path_to_config_file<-"config.tsv"
 
 # Set RnBeads parameters to defauls
 coverage <- 10
 threshold <- 1
 
 # Directory where the bed files and the sample annotation file is located
-bed.dir <- "../../02_data/RnBeads/converted"
+bed.dir <- "02_data/RnBeads/converted"
 
 # Path to sample annotation file
-sample.annotation <- "../../02_data/RnBeads/sample_annotation.csv"
+sample.annotation <- "02_data/RnBeads/sample_annotation.csv"
 
 # Define Data Source
 data.source <- c(bed.dir, sample.annotation)
 
 # Directory where the output should be written to
-results.dir <- "../../03_results/RnBeads"
+results.dir <- "03_results/RnBeads"
 
 # Directory where the analysis and report files should be written to
 analysis.dir <- file.path(results.dir, "analysis")
@@ -67,13 +66,13 @@ print("# Lines before Coverage Filter")
 nrow(meth(imp))
 
 # Try more cores
-setModuleNumCores(imp, 10L)
+#setModuleNumCores(imp, 10L)
 
 # Replace low coverage sites with NA
 imp.filtered <- rnb.execute.low.coverage.masking(imp, coverage)$dataset
 
-# Try more cores
-setModuleNumCores(imp.filtered, 10L)
+# More cores, geht nicht mehr seit neuer conda env
+#setModuleNumCores(imp.filtered, 10L)
 
 # Remove NA entries
 filtered.set.noNA <- rnb.execute.na.removal(imp.filtered, threshold)$dataset
@@ -84,7 +83,7 @@ nrow(meth(filtered.set.noNA))
 rnb.set <- filtered.set.noNA
 
 # Try more cores
-setModuleNumCores(rnb.set, 10L)
+#setModuleNumCores(rnb.set, 10L)
 
 # Run differential methylation analysis (dont use rnb.executeDiffMeth as no results are written to folder)
 rnb.run.differential(rnb.set=rnb.set, dir.reports=report.dir)

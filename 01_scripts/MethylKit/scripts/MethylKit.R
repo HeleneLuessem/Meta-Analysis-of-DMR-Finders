@@ -1,6 +1,6 @@
 suppressPackageStartupMessages(library(methylKit))
 
-path_to_config_file<-"../../config.tsv"
+path_to_config_file<-"config.tsv"
 
 # Agruments are:
 # [1] Number of samples in Group A
