@@ -30,7 +30,7 @@ rm -f snakefile
 echo -e "configfile: \"config.yaml\"\n\n" >> snakefile
 
 # Add Pre-Processing to Snakemake file
-
+echo -e "rule run_pre_processing:\n\toutput:\n\t\t\"data_prep.csv\"\n\tinput:\n\t\t\"data.csv\"\n\t\t\"config.tsv\"\n\tshell:\n\t\t\"01_scripts/Pre-Processing/pre-process.sh\"\n\n" >> snakefile
 
 # Read in relevant parameters from config file
 while IFS=$'\t', read -r -a config
