@@ -1,8 +1,8 @@
 name="pre_process.sh"
-path_to_config_file="../config.tsv"
-path_to_data_file="../data.csv"
+path_to_config_file="config.tsv" #"../config.tsv"
+path_to_data_file="data.csv" #"../data.csv"
 
-path_to_results_folder="../00_inputs/prep"
+path_to_results_folder="02_data/prep" #"../00_inputs/prep"
 
 printHelp(){
 echo -e "" >&2
@@ -28,12 +28,14 @@ do
 	esac
 done
 
+echo "Pre-processing started"
+
 # Create dir to store pre-processed data in
 rm -rf $path_to_results_folder
 mkdir $path_to_results_folder
 
 # File for new file paths of pre-processed inputs
-data_prep="../data_prep.csv"
+data_prep="data_prep.csv"
 rm -f "$data_prep"
 
 # Read in config file
@@ -53,44 +55,45 @@ function pre_process {
 	line_num_before=$(wc -l $line | cut -d' ' -f1)
 	ending="_pre_processed.bed"
 		
-	echo $line
+	#echo $line
 	if [ "$toMerge" = "TRUE" ]; 
 	then
 		if [ "$toRemoveChr" = "TRUE" ];
 		then
 			# (1) Sort (2) Merge (3) Coverage Filter (4) Chr Filter
-			python merge_CpGs.py -i $line -o "temp_$num" 
+			python 01_scripts/Pre-Processing/merge_CpGs.py -i $line -o "temp_$num" 
 			awk -vOFS="\t" -vcov=$minCov '$5 >= cov && ($1 == "chr1" || $1 == "chr2" || $1 == "chr3" || $1 == "chr4" || $1 == "chr5" || $1 == "chr6" || $1 == "chr7" || $1 == "chr8" || $1 == "chr9" || $1 == "chr10" || $1 == "chr11" || $1 == "chr12" || $1 == "chr13" || $1 == "chr14" || $1 == "chr15" || $1 == "chr16" || $1 == "chr17" || $1 == "chr18" || $1 == "chr19" || $1 == "chr20" || $1 == "chr21" || $1 == "chr22" || $1 == "chrX" || $1 == "chrY" || $1 == "1" || $1 == "2" || $1 == "3" || $1 == "4" || $1 == "5" || $1 == "6" || $1 == "7" || $1 == "8" || $1 == "9" || $1 == "10" || $1 == "11" || $1 == "12" || $1 == "13" || $1 == "14" || $1 == "15" || $1 == "16" || $1 == "17" || $1 == "18" || $1 == "19" || $1 == "20" || $1 == "21" || $1 == "22" || $1 == "X" || $1 == "Y")   {print ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)}' "temp_$num" | bedtools sort -i  > "$path_to_results_folder/$file_name_no_ending$ending"
 			rm "temp_$num"
-			echo -e "(1) Sorted\n(2) Merged\n(3) Coverage Filtered (>= $minCov)\n(4) Chromosomes Filtered\n\n"
+			#echo -e "(1) Sorted\n(2) Merged\n(3) Coverage Filtered (>= $minCov)\n(4) Chromosomes Filtered\n\n"
 			line_num_after=$(wc -l $path_to_results_folder/$file_name_no_ending$ending | cut -d' ' -f1)
-			echo -e "# of CpGs: $line_num_before --> $line_num_after"
+			#echo -e "# of CpGs: $line_num_before --> $line_num_after"
 		else
 			# (1) Sort (2) Merge (3) Coverage Filter
-			python merge_CpGs.py -i $line -o "temp_$num"
+			python 01_scripts/Pre-Processing/merge_CpGs.py -i $line -o "temp_$num"
 			awk -vOFS="\t" -vcov=$minCov '$5 >= cov {print ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)}' "temp_$num" | bedtools sort -i  > "$path_to_results_folder/$file_name_no_ending$ending"
 			rm "temp_$num"
-			echo -e "(1) Sorted\n(2) Merged\n(3) Coverage Filtered (>= $minCov)\n\n"
+			#echo -e "(1) Sorted\n(2) Merged\n(3) Coverage Filtered (>= $minCov)\n\n"
 				
 			line_num_after=$(wc -l $path_to_results_folder/$file_name_no_ending$ending | cut -d' ' -f1)
-			echo -e "# of CpGs: $line_num_before --> $line_num_after"
+			#echo -e "# of CpGs: $line_num_before --> $line_num_after"
 		fi
 	else
 		if [ "$toRemoveChr" = "TRUE" ];
 		then
 			# (1) Sort (3) Coverage Filter (4) Chr Filter
 			awk -vOFS="\t" -vcov=$minCov '$5 >= cov && ($1 == "chr1" || $1 == "chr2" || $1 == "chr3" || $1 == "chr4" || $1 == "chr5" || $1 == "chr6" || $1 == "chr7" || $1 == "chr8" || $1 == "chr9" || $1 == "chr10" || $1 == "chr11" || $1 == "chr12" || $1 == "chr13" || $1 == "chr14" || $1 == "chr15" || $1 == "chr16" || $1 == "chr17" || $1 == "chr18" || $1 == "chr19" || $1 == "chr20" || $1 == "chr21" || $1 == "chr22" || $1 == "chrX" || $1 == "chrY" || $1 == "1" || $1 == "2" || $1 == "3" || $1 == "4" || $1 == "5" || $1 == "6" || $1 == "7" || $1 == "8" || $1 == "9" || $1 == "10" || $1 == "11" || $1 == "12" || $1 == "13" || $1 == "14" || $1 == "15" || $1 == "16" || $1 == "17" || $1 == "18" || $1 == "19" || $1 == "20" || $1 == "21" || $1 == "22" || $1 == "X" || $1 == "Y")   {print ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)}' $line | bedtools sort -i  > "$path_to_results_folder/$file_name_no_ending$ending"
-			echo -e "(1) Sorted\n(2) Coverage Filtered (>= $minCov)\n(3) Chromosomes Filtered\n\n"
+			#echo -e "(1) Sorted\n(2) Coverage Filtered (>= $minCov)\n(3) Chromosomes Filtered\n\n"
 			line_num_after=$(wc -l $path_to_results_folder/$file_name_no_ending$ending | cut -d' ' -f1)
-			echo -e "# of CpGs: $line_num_before --> $line_num_after"
+			#echo -e "# of CpGs: $line_num_before --> $line_num_after"
 		else
 			# (1) Sort (3) Coverage Filter
 			awk -vOFS="\t" -vcov=$minCov '$5 >= cov {print ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)}' $line | bedtools sort -i  > "$path_to_results_folder/$file_name_no_ending$ending"
-			echo -e "(1) Sorted\n(2) Coverage Filtered (>= $minCov)\n\n"
+			#echo -e "(1) Sorted\n(2) Coverage Filtered (>= $minCov)\n\n"
 			line_num_after=$(wc -l $path_to_results_folder/$file_name_no_ending$ending | cut -d' ' -f1)
-			echo -e "# of CpGs: $line_num_before --> $line_num_after"
+			#echo -e "# of CpGs: $line_num_before --> $line_num_after"
 		fi
 	fi
+	echo -e "$line pre-processed and stored at $path_to_results_folder."
 }
 
 
@@ -106,8 +109,11 @@ do
 		ending="_pre_processed.bed"
 		pre_process $line $file_name_no_ending $num &
 		
-		echo "$path_to_results_folder/$file_name_no_ending$ending,${data[1]}" > "$data_prep"
+		rm -rf "$data_prep"
+		echo "$path_to_results_folder/$file_name_no_ending$ending,${data[1]}" >> "$data_prep"
 		
 		num=$((num+1))
 	fi
 done < $path_to_data_file
+wait
+echo -e "\n All Input files pre-processed!"
