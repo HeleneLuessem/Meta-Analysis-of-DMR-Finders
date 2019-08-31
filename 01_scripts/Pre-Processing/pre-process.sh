@@ -34,10 +34,6 @@ echo "Pre-processing started"
 rm -rf $path_to_results_folder
 mkdir $path_to_results_folder
 
-# File for new file paths of pre-processed inputs
-data_prep="data_prep.csv"
-rm -f "$data_prep"
-
 # Read in config file
 minCov=10
 while IFS=$'\t' read -r -a config
@@ -108,12 +104,22 @@ do
         	file_name_no_ending=${file_name%.*}
 		ending="_pre_processed.bed"
 		pre_process $line $file_name_no_ending $num &
-		
-		rm -rf "$data_prep"
-		echo "$path_to_results_folder/$file_name_no_ending$ending,${data[1]}" >> "$data_prep"
-		
 		num=$((num+1))
 	fi
 done < $path_to_data_file
 wait
+
+rm -f data_prep.csv
+while IFS=$',' read -r -a data
+do
+	line=${data[0]}
+	if [ ${line:0:1} != "#" ]; then
+		file_name=${data[0]##*/}	
+		file_name_no_ending=${file_name%.*}
+		ending="_pre_processed.bed"
+		echo -e "$path_to_results_folder/$file_name_no_ending$ending,${data[1]}" >> data_prep.csv
+		
+	fi
+done < $path_to_data_file	
+
 echo -e "\n All Input files pre-processed!"
