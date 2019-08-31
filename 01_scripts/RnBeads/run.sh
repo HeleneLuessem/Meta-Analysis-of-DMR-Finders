@@ -81,15 +81,17 @@ fi
 
 
 # (3) Convert Rnbeads output files to standard format
-if [ "$standardize" = "TRUE" ]; then
+#if [ "$standardize" = "TRUE" ]; then
 	# (1) Store result to $path_to_results_folder/RnBeads/RnBeads_DMRs_std.tsv
-	awk -v OFS='\t' -F "," '$1 != "id"{print $2, $3, $4, $14, $7, $8, $9, $11, $13}' $path_to_results_folder/RnBeads/RnBeads_DMRs_genes_raw.tsv > $path_to_results_folder/RnBeads/RnBeads_DMRs_genes_std.tsv
-	awk -v OFS='\t' -F "," '$1 != "id"{print $2, $3, $4, $14, $7, $8, $9, $11, $13}' $path_to_results_folder/RnBeads/RnBeads_DMRs_promoters_raw.tsv > $path_to_results_folder/RnBeads/RnBeads_DMRs_promoters_std.tsv
-	awk -v OFS='\t' -F "," '$1 != "id"{print ($2, $3, $4, $12, $5, $6, $7, $9, $11)}' $path_to_results_folder/RnBeads/RnBeads_DMRs_tiling_raw.tsv > $path_to_results_folder/RnBeads/RnBeads_DMRs_tiling_std.tsv
-	awk -v OFS='\t' -F "," '$1 != "id"{print ($2, $3, $4, $12, $5, $6, $7, $9, $11)}' $path_to_results_folder/RnBeads/RnBeads_DMRs_cpgislands_raw.tsv > $path_to_results_folder/RnBeads/RnBeads_DMRs_cpgislands_std.tsv
+#	awk -v OFS='\t' -F "," '$1 != "id"{print $2, $3, $4, $14, $7, $8, $9, $11, $13}' $path_to_results_folder/RnBeads/RnBeads_DMRs_genes_raw.tsv > $path_to_results_folder/RnBeads/RnBeads_DMRs_genes_std.tsv
+#	awk -v OFS='\t' -F "," '$1 != "id"{print $2, $3, $4, $14, $7, $8, $9, $11, $13}' $path_to_results_folder/RnBeads/RnBeads_DMRs_promoters_raw.tsv > $path_to_results_folder/RnBeads/RnBeads_DMRs_promoters_std.tsv
+#	awk -v OFS='\t' -F "," '$1 != "id"{print ($2, $3, $4, $12, $5, $6, $7, $9, $11)}' $path_to_results_folder/RnBeads/RnBeads_DMRs_tiling_raw.tsv > $path_to_results_folder/RnBeads/RnBeads_DMRs_tiling_std.tsv
+#	awk -v OFS='\t' -F "," '$1 != "id"{print ($2, $3, $4, $12, $5, $6, $7, $9, $11)}' $path_to_results_folder/RnBeads/RnBeads_DMRs_cpgislands_raw.tsv > $path_to_results_folder/RnBeads/RnBeads_DMRs_cpgislands_std.tsv
 	#cat $path_to_results_folder/RnBeads/RnBeads_DMRs_genes_std.tsv $path_to_results_folder/RnBeads/RnBeads_DMRs_promoters_std.tsv $path_to_results_folder/RnBeads/RnBeads_DMRs_tiling_std.tsv $path_to_results_folder/RnBeads/RnBeads_DMRs_cpgislands_std.tsv > $path_to_results_folder/RnBeads/RnBeads_DMRs_std.tsv
-	#rm -rf $path_to_results_folder/RnBeads/reports 
-	echo -e "Results are now in standard format: Chr Start End #CpGs meanMet1 meanMet2 MetDiff QualityMeasure\n"
-fi
+#	#rm -rf $path_to_results_folder/RnBeads/reports 
+#	echo -e "Results are now in standard format: Chr Start End #CpGs meanMet1 meanMet2 MetDiff QualityMeasure\n"
+#fi
+touch 03_results/RnBeads/RnBeads_DMRs_raw.tsv
+touch 03_results/RnBeads/RnBeads_DMRs_std.tsv
 
-touch RnBeads_dummy.txt
+touch RnBeads_dummy.txt 

@@ -61,7 +61,7 @@ cat(sprintf("\nCores%s\n", mc.cores))
 
 # Function to read in a bed files as a BSmooth object
 read.bed <- function(file) {
-    
+	print(file)    
 	dat <- read.table(file, skip = 0, row.names = NULL,
 	col.names = c("chr", "from", "to", "methPerc", "coverage", "strand", "NA", "NA","NA","NA","NA"),
 	colClasses = c("character", "integer", "integer", "character", "character", "character", "character", "character","character","character","character"))[,c('chr','from','strand','methPerc','coverage')]
@@ -75,7 +75,7 @@ read.bed <- function(file) {
     	minus_strand <- BSseq(pos = tmp$from - 1L, chr = tmp$chr, M = as.matrix(tmp$methPerc, ncol = 1), Cov = as.matrix(tmp$coverage, ncol = 1), sampleNames = "reverse")
     	
 	BS <- combine(plus_strand, minus_strand)
-	BS <- collapseBSseq(BS, columns = c("a", "a"))
+	BS <- collapseBSseq(BS, c("a", "a"))
 }
 
 
@@ -125,7 +125,7 @@ BS.samples <- combine(BS.groupA, BS.groupB)
 print(BS.samples)
 
 #Smooth Data
-BS.smooth <- BSmooth(BSseq=BS.samples, ns=ns, h=h, maxGap=maxGapL, mc.cores=mc.cores)
+BS.smooth <- BSmooth(BSseq=BS.samples, ns=ns, h=h, maxGap=maxGapL, BPPARAM=MulticoreParam(workers=mc.cores))
 
 # Calculate t statistics
 BS.tstat <- BSmooth.tstat(	BSseq=BS.smooth, 

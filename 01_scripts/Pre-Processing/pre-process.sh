@@ -19,11 +19,12 @@ echo -e "" >&2
 
 toMerge=TRUE
 toRemoveChr=TRUE
+out_name="data.prep.csv"
 
 while getopts "mr" opt
 do
 	case "$opt" in
-		m) toMerge=FALSE;;
+		m) toMerge=FALSE; out_name="data_prep_unmerged.csv";;
 		r) toRemoveChr=FALSE;;
 	esac
 done
@@ -109,7 +110,7 @@ do
 done < $path_to_data_file
 wait
 
-rm -f data_prep.csv
+rm -f $out_name
 while IFS=$',' read -r -a data
 do
 	line=${data[0]}
@@ -117,7 +118,7 @@ do
 		file_name=${data[0]##*/}	
 		file_name_no_ending=${file_name%.*}
 		ending="_pre_processed.bed"
-		echo -e "$path_to_results_folder/$file_name_no_ending$ending,${data[1]}" >> data_prep.csv
+		echo -e "$path_to_results_folder/$file_name_no_ending$ending,${data[1]}" >> $out_name
 		
 	fi
 done < $path_to_data_file	

@@ -1,6 +1,6 @@
 name="run.sh"
 path_to_config_file="config.tsv"
-path_to_data_file="data_prep.csv"
+path_to_data_file="data_prep_unmerged.csv" #_prep.csv"
 path_to_scripts_folder="01_scripts/BSmooth/scripts"
 path_to_data_folder="02_data"
 path_to_results_folder="03_results"
@@ -34,7 +34,7 @@ done
 
 # (1) Convert bed input files to BSmooth input files
 if [ "$convert" = "TRUE" ]; then
-	mkdir -p $path_to_data_folder/BSmooth/converted
+	#mkdir -p $path_to_data_folder/BSmooth/converted
         rm -f $path_to_data_folder/BSmooth/group_A.txt
         rm -f $path_to_data_folder/BSmooth/group_B.txt
         touch $path_to_data_folder/BSmooth/group_A.txt
@@ -49,10 +49,12 @@ if [ "$convert" = "TRUE" ]; then
 		then
 			# Create files listing the group's inputs
 			if [ "${data[1]}" = "B" ]; then
-				echo "$path_to_data_folder/BSmooth/converted/$file_name_no_ending$ending" >> $path_to_data_folder/BSmooth/group_B.txt
+			#	echo "$path_to_data_folder/BSmooth/converted/$file_name_no_ending$ending" >> $path_to_data_folder/BSmooth/group_B.txt
+				echo $line >> $path_to_data_folder/BSmooth/group_B.txt
 			else
 				if [ "${data[1]}" = "A" ]; then
-					echo "$path_to_data_folder/BSmooth/converted/$file_name_no_ending$ending" >> $path_to_data_folder/BSmooth/group_A.txt
+			#		echo "$path_to_data_folder/BSmooth/converted/$file_name_no_ending$ending" >> $path_to_data_folder/BSmooth/group_A.txt
+					echo $line >> $path_to_data_folder/BSmooth/group_A.txt
 				else
 					echo "Error: Group Name different from A and B!"
 					exit 1
