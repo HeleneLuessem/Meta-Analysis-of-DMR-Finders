@@ -21,9 +21,9 @@ toMerge=TRUE
 toRemoveChr=TRUE
 out_name="data.prep.csv"
 
-while getopts "mr" opt
+while getopts "mr" opt;
 do
-	case "$opt" in
+	case "${opt}" in
 		m) toMerge=FALSE; out_name="data_prep_unmerged.csv";;
 		r) toRemoveChr=FALSE;;
 	esac
