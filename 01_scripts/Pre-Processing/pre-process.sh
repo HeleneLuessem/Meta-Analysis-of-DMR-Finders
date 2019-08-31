@@ -24,7 +24,7 @@ out_name="data.prep.csv"
 while getopts "mr" opt;
 do
 	case "${opt}" in
-		m) toMerge=FALSE; out_name="data_prep_unmerged.csv";;
+		m) toMerge=FALSE; out_name="data_prep_unmerged.csv"; path_to_results_folder="02_data/prep_unmerged;;
 		r) toRemoveChr=FALSE;;
 	esac
 done
