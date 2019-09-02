@@ -61,40 +61,44 @@ cat(sprintf("\nMaximum Gap DMRs %s\n", maxGapD))
 cat(sprintf("\nCores %s\n", mc.cores))
 cat(sprintf("\nMin Coverage %s\n", min.cov))
 
+# Function to read in a bed files as a BSmooth object
+read.bed <- function(file) {
+	print(file)    
+	dat <- read.table(file, skip = 0, row.names = NULL, col.names = c("chr", "from", "to", "methPerc", "coverage", "strand", "NA", "NA","NA","NA","NA"), colClasses = c("character", "integer", "integer", "character", "character", "character", "character", "character","character","character","character"))[,c('chr','from','strand','methPerc','coverage')]
+	dat <- transform(dat,coverage= as.double(coverage))
+	dat <- transform(dat,methPerc= as.integer(0.5 + as.double(methPerc)/100 * as.double(coverage)))
+	## Now we need to handle that the data has separate lines for each strand
+ 	## We join these
+    	tmp <- dat[dat$strand == "+",] # & dat$coverage >= min.cov,]
+    	plus_strand <- BSseq(pos = tmp$from, chr = tmp$chr, M = as.matrix(tmp$methPerc, ncol = 1), Cov = as.matrix(tmp$coverage, ncol = 1), sampleNames = "forward")
+    	tmp <- dat[dat$strand == "-",] # & dat$coverage >= min.cov,]
+    	minus_strand <- BSseq(pos = tmp$from - 1L, chr = tmp$chr, M = as.matrix(tmp$methPerc, ncol = 1), Cov = as.matrix(tmp$coverage, ncol = 1), sampleNames = "reverse")
+    	
+	BS <- combine(plus_strand, minus_strand)
+	BS <- collapseBSseq(BS, columns = c("a", "a"))
+}
+
+
 # Iterate over file to read out input files for a given group
 readListOfFiles = function(filepath, group, sample.names) {
 	i = 0
 	f = file(filepath, "r")
 	while( TRUE ) {
 		line = readLines(f, n = 1)
-		print(line)
+		#print(line)
 		if ( length(line) > 0 ) {
 			if (i >= 1){
 				i = i + 1
-				dat <- read.table(line, skip = 0, row.names = NULL, col.names = c("chr", "from", "to", "methPerc", "coverage", "strand", "NA", "NA","NA","NA","NA"), colClasses = c("character", "integer", "integer", "character", "character", "character", "character", "character","character","character","character"))[,c('chr','from','strand','methPerc','coverage')]
-				dat <- transform(dat,methPerc= as.integer(0.5 + as.double(methPerc) * as.double(coverage)))
-				dat$strand <- "+"
-				dat <- transform(dat, coverage=as.integer(coverage))
-				BS.new <- BSseq(pos = dat$from, chr = dat$chr, M = as.matrix(dat$methPerc, ncol = 1), Cov = as.matrix(dat$coverage, ncol = 1), sampleNames = "all")
-				print(1)
+				BS.new <- read.bed(line)
 				sampleNames(BS.new) <- paste(group, as.character(i), sep="")
-				print(2)
 				sample.names[i] <- paste(group, as.character(i), sep="")
-				print(3)
-				print(BS.samples)
-				print(BS.new)
 				BS.samples <- combine(BS.samples, BS.new)
 			} else {
-				dat <- read.table(line, skip = 0, row.names = NULL, col.names = c("chr", "from", "to", "methPerc", "coverage", "strand", "NA", "NA","NA","NA","NA"), colClasses = c("character", "integer", "integer", "character", "character", "character", "character", "character","character","character","character"))[,c('chr','from','strand','methPerc','coverage')]
-				dat <- transform(dat,methPerc= as.integer(0.5 + as.double(methPerc) * as.double(coverage)))
-				dat$strand <- "+"
-				dat <- transform(dat, coverage=as.integer(coverage))	
-				BS.samples <- BSseq(pos = dat$from, chr = dat$chr, M = as.matrix(dat$methPerc, ncol = 1), Cov = as.matrix(dat$coverage, ncol = 1), sampleNames = "all")
-
+				BS.samples <- read.bed(line)
 				#print(BS.samples)
 				i = i + 1
 				print(paste(group, as.character(i), sep=""))
-				sampleNames(BS.samples) <- paste(group, as.character(i), sep="")
+				sampleNames(BS.samples) <- "A1"
 				sample.names[i] <- paste(group, as.character(i), sep="")
 			}
 		} else {
@@ -122,7 +126,7 @@ print(4)
 # Merge into one object
 print(BS.groupA)
 print(validObject(BS.groupA))
-#print(coldata(BS.groupA))
+print(coldata(BS.groupA))
 print(BS.groupB)
 print(validObject(BS.groupB))
 BS.samples <- combine(BS.groupA, BS.groupB)
