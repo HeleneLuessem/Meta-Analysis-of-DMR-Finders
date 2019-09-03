@@ -109,18 +109,18 @@ filtered.myobj=filterByCoverage(myobj,lo.count=mincov,lo.perc=NULL,hi.count=NULL
 
 
 # Generate Plots and Statistics
-getMethylationStats(myobj[[1]],plot=TRUE,both.strands=FALSE)
-getMethylationStats(myobj[[2]],plot=TRUE,both.strands=FALSE)
-getMethylationStats(myobj[[3]],plot=TRUE,both.strands=FALSE)
-getMethylationStats(myobj[[4]],plot=TRUE,both.strands=FALSE)
-getMethylationStats(myobj[[5]],plot=TRUE,both.strands=FALSE)
-getMethylationStats(myobj[[6]],plot=TRUE,both.strands=FALSE)
-getCoverageStats(myobj[[1]],plot=TRUE,both.strands=FALSE)
-getCoverageStats(myobj[[2]],plot=TRUE,both.strands=FALSE)
-getCoverageStats(myobj[[3]],plot=TRUE,both.strands=FALSE)
-getCoverageStats(myobj[[4]],plot=TRUE,both.strands=FALSE)
-getCoverageStats(myobj[[5]],plot=TRUE,both.strands=FALSE)
-getCoverageStats(myobj[[6]],plot=TRUE,both.strands=FALSE)
+#getMethylationStats(myobj[[1]],plot=TRUE,both.strands=FALSE)
+#getMethylationStats(myobj[[2]],plot=TRUE,both.strands=FALSE)
+#getMethylationStats(myobj[[3]],plot=TRUE,both.strands=FALSE)
+#getMethylationStats(myobj[[4]],plot=TRUE,both.strands=FALSE)
+#getMethylationStats(myobj[[5]],plot=TRUE,both.strands=FALSE)
+#getMethylationStats(myobj[[6]],plot=TRUE,both.strands=FALSE)
+#getCoverageStats(myobj[[1]],plot=TRUE,both.strands=FALSE)
+#getCoverageStats(myobj[[2]],plot=TRUE,both.strands=FALSE)
+#getCoverageStats(myobj[[3]],plot=TRUE,both.strands=FALSE)
+#getCoverageStats(myobj[[4]],plot=TRUE,both.strands=FALSE)
+#getCoverageStats(myobj[[5]],plot=TRUE,both.strands=FALSE)
+#getCoverageStats(myobj[[6]],plot=TRUE,both.strands=FALSE)
 
 # Merge samples
 meth=unite(	object=filtered.myobj, 
