@@ -66,24 +66,24 @@ print("# Lines before Coverage Filter")
 nrow(meth(imp))
 
 # Try more cores
-#setModuleNumCores(imp, 10L)
+setModuleNumCores(imp, 10L)
 
 # Replace low coverage sites with NA
 imp.filtered <- rnb.execute.low.coverage.masking(imp, coverage)$dataset
 
-# More cores, geht nicht mehr seit neuer conda env
-#setModuleNumCores(imp.filtered, 10L)
+# More cores
+setModuleNumCores(imp.filtered, 10L)
 
 # Remove NA entries
-filtered.set.noNA <- rnb.execute.na.removal(imp.filtered, threshold)$dataset
+filtered.set.noNA <- rnb.execute.na.removal(imp.filtered)$dataset # TODO add again:, threshold)$dataset
 
 print("# Sites after Coverage Filter")
 nrow(meth(filtered.set.noNA))
 
 rnb.set <- filtered.set.noNA
 
-# Try more cores
-#setModuleNumCores(rnb.set, 10L)
+# More cores
+setModuleNumCores(rnb.set, 10L)
 
 # Run differential methylation analysis (dont use rnb.executeDiffMeth as no results are written to folder)
 rnb.run.differential(rnb.set=rnb.set, dir.reports=report.dir)
