@@ -1,3 +1,10 @@
+#################
+# Bisulfite Seq #
+#################
+
+WGBS	FALSE
+RRBS	TRUE
+
 ################
 # Tools to Run #
 ################
@@ -26,7 +33,7 @@ Number of Threads	10
 ########################
 
 # Minimum Length of a DMR
-Minimum DMR Length	0
+Minimum DMR Length	50
 
 # The minimum mean methylation difference for calling DMRs
 Minimum Mean Meth Difference	0.0
@@ -48,7 +55,7 @@ Maximum Distance between two CpGs in one DMR	300
 #######################################
 
 # The minimum # of CpGs in a DMR
-Minimum Number of CpGs	3
+Minimum Number of CpGs	10
 
 #######################
 # Inputs for Metilene #
@@ -70,7 +77,7 @@ Stringency of Valley Filter	0.7
 # A flag to indicate whether to apply smoothing in estimating mean methylation levels.
 Smoothing	TRUE
 
-Size of Smoothing Window [bp]	1000
+Size of Smoothing Window [bp]	500
 
 # A flag to indicate whether the dispersion in two groups are deemed equal. The dispersion shrinkages are performed on two conditions independently.
 Equal Dispersion	FALSE
@@ -82,13 +89,13 @@ Percentage of CG sites with significant p-values per DMR	0.5
 DML Delta	0
 
 # When delta is not specified, this is the threshold of p-values for defining DML, e.g. Loci with p-values less than this threshold will be deemed DMLs. When delta is specified, CpG sites with posterior probability greater than 1-p.threshold are deemed DML.
-DML p threshold	0.005
+DML p threshold	0.001
 
 # A threshold for defining DMR. In DML detection procedure, a hypothesis test that the two groups means are equal is conducted at each CpG site. Here if ’delta’ is specified, the function will compute the posterior probability that the difference of the means are greater than delta, and then construct DMR based on that.
 DMR Delta	0.01
 
 # A threshold of p-values for calling DMR. Loci with p-values less than this threshold will be picked and joint to form the DMRs.
-DMR p threshold	0.005
+DMR p threshold	0.00001
 
 ####################################
 # Inputs for MethylKit and RnBeads #
@@ -104,7 +111,7 @@ Tiling Window Size	1000
 # Step size of tiling windows
 Tiling Window Step Size	1000
 
-
+:
 ######################
 # Inputs for RnBeads #
 ######################
