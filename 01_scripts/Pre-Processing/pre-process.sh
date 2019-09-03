@@ -19,7 +19,7 @@ echo -e "" >&2
 
 toMerge=TRUE
 toRemoveChr=TRUE
-out_name="data.prep.csv"
+out_name="data_prep.csv"
 
 while getopts "mr" opt;
 do
