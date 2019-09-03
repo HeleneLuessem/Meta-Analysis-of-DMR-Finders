@@ -1,6 +1,6 @@
 suppressPackageStartupMessages(library(bsseq))
 
-path_to_config_file <- "/projects/student/s9helues/Meta-Analysis-of-DMR-Finders/config.tsv"
+path_to_config_file <- "config.tsv"
 
 # Agruments are:
 # [1] File with list of files from group A
@@ -66,8 +66,8 @@ readListOfFiles = function(filepath, group, sample.names) {
 	i = 0
 	f = file(filepath, "r")
 	while( TRUE ) {
-		line = readLines(f, n = 1)
 		print(line)
+		line = readLines(f, n = 1)
 		if ( length(line) > 0 ) {
 			if (i >= 1){
 				i = i + 1
@@ -76,13 +76,8 @@ readListOfFiles = function(filepath, group, sample.names) {
 				dat$strand <- "+"
 				dat <- transform(dat, coverage=as.integer(coverage))
 				BS.new <- BSseq(pos = dat$from, chr = dat$chr, M = as.matrix(dat$methPerc, ncol = 1), Cov = as.matrix(dat$coverage, ncol = 1), sampleNames = "all")
-				print(1)
 				sampleNames(BS.new) <- paste(group, as.character(i), sep="")
-				print(2)
 				sample.names[i] <- paste(group, as.character(i), sep="")
-				print(3)
-				print(BS.samples)
-				print(BS.new)
 				BS.samples <- combine(BS.samples, BS.new)
 			} else {
 				dat <- read.table(line, skip = 0, row.names = NULL, col.names = c("chr", "from", "to", "methPerc", "coverage", "strand", "NA", "NA","NA","NA","NA"), colClasses = c("character", "integer", "integer", "character", "character", "character", "character", "character","character","character","character"))[,c('chr','from','strand','methPerc','coverage')]
@@ -90,10 +85,7 @@ readListOfFiles = function(filepath, group, sample.names) {
 				dat$strand <- "+"
 				dat <- transform(dat, coverage=as.integer(coverage))	
 				BS.samples <- BSseq(pos = dat$from, chr = dat$chr, M = as.matrix(dat$methPerc, ncol = 1), Cov = as.matrix(dat$coverage, ncol = 1), sampleNames = "all")
-
-				#print(BS.samples)
 				i = i + 1
-				print(paste(group, as.character(i), sep=""))
 				sampleNames(BS.samples) <- paste(group, as.character(i), sep="")
 				sample.names[i] <- paste(group, as.character(i), sep="")
 			}
@@ -121,10 +113,7 @@ samples_B <- read_B[[2]]
 print(4)
 # Merge into one object
 print(BS.groupA)
-print(validObject(BS.groupA))
-#print(coldata(BS.groupA))
 print(BS.groupB)
-print(validObject(BS.groupB))
 BS.samples <- combine(BS.groupA, BS.groupB)
 print(BS.samples)
 
