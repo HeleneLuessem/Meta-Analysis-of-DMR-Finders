@@ -14,11 +14,11 @@ smoothing.span <- 500
 p.threshold1 <- 0.001
 
 # CallDMR
-#delta2 <- 0.00001 # Default
-p.threshold2 <- 0.01
+#delta2 <- 0.00001 # Default 0.1
+p.threshold2 <- 0.00001 #0.01
 minlen <- 50
 minCG <- 3
-dis.merge <- 50
+dis.merge <- 100#50
 pct.sig <- 0.5
 
 # Agruments are:
@@ -54,27 +54,27 @@ options(digits=5)
 equal.disp	<- as.logical(parameters[parameters$parameter == "Equal Dispersion", ]$value)
 smoothing	<- as.logical(parameters[parameters$parameter == "Smoothing", ]$value)
 smoothing.span	<- strtoi(parameters[parameters$parameter == "Size of Smoothing Window [bp]", ]$value)
-delta1		<- as.double(toString(parameters[parameters$parameter == "DML Delta", ]$value))
+#delta1		<- as.double(toString(parameters[parameters$parameter == "DML Delta", ]$value))
 p.threshold1	<- as.double(toString(parameters[parameters$parameter == "DML p threshold", ]$value))
-delta2		<- as.double(toString(parameters[parameters$parameter == "DMR Delta", ]$value))
+#delta2		<- as.double(toString(parameters[parameters$parameter == "DMR Delta", ]$value))
 p.threshol2 	<- as.double(toString(parameters[parameters$parameter == "DMR p threshold", ]$value))
-minlen		<- strtoi(parameters[parameters$parameter == "Minimum Length of a DMR [bp]", ]$value)
+minlen		<- strtoi(parameters[parameters$parameter == "Minimum DMR Length", ]$value)
 minCG 		<- strtoi(parameters[parameters$parameter == "Minimum Number of CpGs", ]$value)
 dis.merge	<- strtoi(parameters[parameters$parameter == "Maximum Distance between two CpGs in one DMR", ]$value)
 pct.sig		<- as.double(toString(parameters[parameters$parameter == "Percentage of CG sites with significant p-values per DMR", ]$value))
 
-
 cat(sprintf("\nEqual Dispersion: %s\n", equal.disp))
 cat(sprintf("Smoothing: %s\n", smoothing))
 cat(sprintf("Size of Smoothing Window [bp]: %s\n", smoothing.span))
-cat(sprintf("DML Delta: %s\n", delta1))
+#cat(sprintf("DML Delta: %s\n", delta1))
 cat(sprintf("DML p threshold: %s\n", p.threshold1))
-cat(sprintf("DMR Delta: %s\n", delta2))
+#cat(sprintf("DMR Delta: %s\n", delta2))
 cat(sprintf("DMR p threshold: %s\n", p.threshol2))
 cat(sprintf("Minimum Length of a DMR [bp]: %s\n", minlen))
 cat(sprintf("Minimum Number of CpGs: %s\n", minCG))
 cat(sprintf("Maximum Distance between two CpGs in one DMR: %s\n", dis.merge))
 cat(sprintf("Percentage of CG sites with significant p-values per DMR: %s\n", pct.sig))
+
 
 # Iterate over file to read out input files for a given group
 readListOfFiles = function(filepath, group) {
