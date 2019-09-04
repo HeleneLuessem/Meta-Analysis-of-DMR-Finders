@@ -5,7 +5,7 @@ path_to_scripts_folder="01_scripts/RnBeads/scripts"
 path_to_data_folder="02_data"
 path_to_results_folder="03_results"
 path_to_sample_annotation="$path_to_data_folder/RnBeads/sample_annotation.csv"
-
+path_to_config_file="config.tsv"
 
 printHelp(){
 echo -e "" >&2
@@ -70,18 +70,30 @@ fi
 if [ "$callDMRs" = "TRUE" ]; then
 	mkdir -p "$path_to_results_folder/RnBeads"
 	Rscript "$path_to_scripts_folder/RnBeads.R"
-	# Create Raw Files
-	#cp $path_to_results_folder/RnBeads/reports/differential_methylation_data/diffMethTable_region_cmp1_genes.csv $path_to_results_folder/RnBeads/RnBeads_DMRs_genes_raw.tsv
-	#cp $path_to_results_folder/RnBeads/reports/differential_methylation_data/diffMethTable_region_cmp1_promoters.csv $path_to_results_folder/RnBeads/RnBeads_DMRs_promoters_raw.tsv
-	#cp $path_to_results_folder/RnBeads/reports/differential_methylation_data/diffMethTable_region_cmp1_tiling.csv $path_to_results_folder/RnBeads/RnBeads_DMRs_tiling_raw.tsv
-	#cp $path_to_results_folder/RnBeads/reports/differential_methylation_data/diffMethTable_region_cmp1_cpgislands.csv $path_to_results_folder/RnBeads/RnBeads_DMRs_cpgislands_raw.tsv
-	#rm -rf $path_to_results_folder/RnBeads/reports
 	echo -e "DMRs are called\n"
 fi
 
 
 # (3) Convert Rnbeads output files to standard format
-#if [ "$standardize" = "TRUE" ]; then
+if [ "$standardize" = "TRUE" ]; then
+	# Get Tiling Size
+	while IFS=$'\t', read -r -a config
+	do
+		case "${config[0]}" in
+	        	"Tiling Window Size")	tilingSize=${config[1]};;
+		esac
+	done < $path_to_config_file
+	file_name=""
+	case $tilingSize in
+		"200") 	file_name="diffMethTable_region_cmp1_tiling200bp.csv";;
+		"500") 	file_name="diffMethTable_region_cmp1_tiling500bp.csv";;
+		"1000") file_name="diffMethTable_region_cmp1_tiling1kb.csv";;
+		"5000") file_name="diffMethTable_region_cmp1_tiling.csv";;
+	esac
+	echo "$file_name"
+	cp "$path_to_results_folder/RnBeads/reports/differential_methylation_data/$file_name" "$path_to_results_folder/RnBeads/RnBeads_DMRs_raw.tsv"
+	awk -vOFS='\t' '{print($2, $3, $4, $12, $5, $6, $7, $9, $11)}' "$path_to_results_folder/RnBeads/reports/differential_methylation_data/$file_name" > "$path_to_results_folder/RnBeads/RnBeads_DMRs_std.tsv"
+fi	
 	# (1) Store result to $path_to_results_folder/RnBeads/RnBeads_DMRs_std.tsv
 #	awk -v OFS='\t' -F "," '$1 != "id"{print $2, $3, $4, $14, $7, $8, $9, $11, $13}' $path_to_results_folder/RnBeads/RnBeads_DMRs_genes_raw.tsv > $path_to_results_folder/RnBeads/RnBeads_DMRs_genes_std.tsv
 #	awk -v OFS='\t' -F "," '$1 != "id"{print $2, $3, $4, $14, $7, $8, $9, $11, $13}' $path_to_results_folder/RnBeads/RnBeads_DMRs_promoters_raw.tsv > $path_to_results_folder/RnBeads/RnBeads_DMRs_promoters_std.tsv
@@ -91,7 +103,5 @@ fi
 #	#rm -rf $path_to_results_folder/RnBeads/reports 
 #	echo -e "Results are now in standard format: Chr Start End #CpGs meanMet1 meanMet2 MetDiff QualityMeasure\n"
 #fi
-touch 03_results/RnBeads/RnBeads_DMRs_raw.tsv
-touch 03_results/RnBeads/RnBeads_DMRs_std.tsv
 
 touch RnBeads_dummy.txt 
