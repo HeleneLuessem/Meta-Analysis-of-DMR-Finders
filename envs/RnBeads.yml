@@ -46,7 +46,7 @@ bioconductor-xvector=0.22.0=r351h14c3975_0
 bioconductor-zlibbioc=1.28.0=r351h14c3975_0
 bwidget=1.9.11=0
 bzip2=1.0.8=h516909a_0
-ca-certificates=2019.6.16=hecc5488_0
+ca-certificates=2019.9.11=hecc5488_0
 cairo=1.16.0=hfb77d84_1002
 curl=7.65.3=hf8cf82a_0
 fontconfig=2.13.1=h86ecdb6_1001
@@ -115,6 +115,7 @@ r-curl=4.0=r35hcdcec82_0
 r-data.table=1.12.2=r35hcdcec82_1
 r-dbi=1.0.0=r35h6115d3f_1002
 r-digest=0.6.20=r35h0357c0b_1
+r-doparallel=1.0.15=r35h6115d3f_0
 r-dorng=1.7.1=r35h6115d3f_1001
 r-dotcall64=1.0_0=r35h9bbef5b_1004
 r-dplyr=0.8.3=r35h0357c0b_1
