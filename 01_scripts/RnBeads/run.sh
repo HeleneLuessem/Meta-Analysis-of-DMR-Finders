@@ -44,7 +44,8 @@ if [ "$convert" = "TRUE" ]; then
 	echo "bedFile,SampleID,Sample_Group" >>  $path_to_sample_annotation
 	
 	while IFS=$',' read -r -a data
-        do
+       	do
+		echo "${data:01}"
 		if [ ${data:0:1} != "#" ]; then
 			first=${data[0]}
 			group=${data[1]}
@@ -92,7 +93,7 @@ if [ "$standardize" = "TRUE" ]; then
 	esac
 	echo "$file_name"
 	cp "$path_to_results_folder/RnBeads/reports/differential_methylation_data/$file_name" "$path_to_results_folder/RnBeads/RnBeads_DMRs_raw.tsv"
-	awk -vOFS='\t' '{print($2, $3, $4, $12, $5, $6, $7, $9, $11)}' "$path_to_results_folder/RnBeads/reports/differential_methylation_data/$file_name" > "$path_to_results_folder/RnBeads/RnBeads_DMRs_std.tsv"
+	awk -vOFS='\t' -F "," '$1 != "id" {print($2, $3, $4, $12, $5, $6, $7, $9, $11)}' "$path_to_results_folder/RnBeads/reports/differential_methylation_data/$file_name" > "$path_to_results_folder/RnBeads/RnBeads_DMRs_std.tsv"
 fi	
 	# (1) Store result to $path_to_results_folder/RnBeads/RnBeads_DMRs_std.tsv
 #	awk -v OFS='\t' -F "," '$1 != "id"{print $2, $3, $4, $14, $7, $8, $9, $11, $13}' $path_to_results_folder/RnBeads/RnBeads_DMRs_genes_raw.tsv > $path_to_results_folder/RnBeads/RnBeads_DMRs_genes_std.tsv
