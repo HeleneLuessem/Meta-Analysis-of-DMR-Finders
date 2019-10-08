@@ -38,8 +38,7 @@ local.correct <- TRUE
 
 # dmrFinder
 maxGapD <- 300
-min.cov <- 99
-print(path_to_config_file)
+
 # Overwrite Default values
 parameters <- read.delim(path_to_config_file, header= FALSE, sep="\t", comment.char="#")
 colnames(parameters) <- c("parameter", "value")
@@ -51,7 +50,6 @@ maxGapL		<- strtoi(parameters[parameters$parameter == "Maximum Gap Loci", ]$valu
 local.correct	<- as.logical(parameters[parameters$parameter == "Local Correction", ]$value)
 maxGapD		<- strtoi(parameters[parameters$parameter == "Maximum Distance between two CpGs in one DMR", ]$value)
 mc.cores	<- strtoi(parameters[parameters$parameter == "Number of Threads", ]$value)
-min.cov		<- strtoi(parameters[parameters$parameter == "Minimum Read Coverage", ]$value)
 
 cat(sprintf("\nMin Number of Loci in Window: %s\n", ns))
 cat(sprintf("\nMin Smoothing Window %s\n", h))
@@ -59,7 +57,6 @@ cat(sprintf("\nMaximum Gap Loci %s\n", maxGapL))
 cat(sprintf("\nLocal Correction %s\n", local.correct))
 cat(sprintf("\nMaximum Gap DMRs %s\n", maxGapD))
 cat(sprintf("\nCores %s\n", mc.cores))
-cat(sprintf("\nMin Coverage %s\n", min.cov))
 
 # Iterate over file to read out input files for a given group
 readListOfFiles = function(filepath, group, sample.names) {
@@ -118,7 +115,7 @@ BS.samples <- combine(BS.groupA, BS.groupB)
 print(BS.samples)
 
 #Smooth Data
-BS.smooth <- BSmooth(BSseq=BS.samples, ns=ns, h=h, maxGap=maxGapL, mc.cores=10) #BPPARAM=MulticoreParam(workers=mc.cores))
+BS.smooth <- BSmooth(BSseq=BS.samples, ns=ns, h=h, maxGap=maxGapL, mc.cores=mc.cores) #BPPARAM=MulticoreParam(workers=mc.cores))
 
 # Calculate t statistics
 BS.tstat <- BSmooth.tstat(	BSseq=BS.smooth, 
