@@ -52,7 +52,7 @@ idr$para
 
 
 current <- Sys.time()
-fileName <- paste("IDR_out-",current,".tsv",sep="")
-#fileName <- "IDR_out_"
+#fileName <- paste("IDR_out-",current,".tsv",sep="")
+fileName <- "IDR_out.tsv"
 write.table(data, fileName, sep='\t', row.names=F, quote=F)
 

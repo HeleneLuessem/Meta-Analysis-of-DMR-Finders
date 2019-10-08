@@ -69,6 +69,12 @@ rm "$TMPWD/Merged_Regions_Scores_1.tsv"
 
 Rscript $path_to_scripts_folder/run_IDR.R
 
+awk -vOFS='\t' '$1 != "V4"{print($1, $2, $3, $4, $5, $7, $8)}' IDR_out.tsv > t1
+
+
+paste t1 temp/Merged_Regions_Scores.tsv | awk -vOFS='\t' '$6 <= 0.05{print($8, $9, $10, $11, $12, $13, $14, $15, $6, $7)}' > IDR_out.tsv
+
+rm t1
 
 
 
