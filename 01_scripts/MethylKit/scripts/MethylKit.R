@@ -130,11 +130,11 @@ meth=unite(	object=filtered.myobj,
 		mc.cores=mc.cores)
 
 # Generate Plots and Statistics
-getCorrelation( meth, plot=TRUE)
-clusterSamples( meth, dist="correlation", method="ward", plot=TRUE)
-PCASamples(meth, screeplot=TRUE)
-PCASamples(meth)
-
+#getCorrelation( meth, plot=TRUE)
+#clusterSamples( meth, dist="correlation", method="ward", plot=TRUE)
+#PCASamples(meth, screeplot=TRUE)
+#PCASamples(meth)
+print("1")
 # Create Tiles of length 1000
 tiles=tileMethylCounts(	object=meth, 
 			win.size=win.size, 
@@ -144,7 +144,7 @@ tiles=tileMethylCounts(	object=meth,
 #te<-getData(tiles)
 #write.table(tiles, file = "tiles", sep = "\t", col.names = NA, quote = FALSE)
 #cat("TILES\n")
-
+print("2")
 # Try unite here
 #tilesu=unite(   object=tiles,
 #                destand=destrand,
@@ -154,7 +154,7 @@ tiles=tileMethylCounts(	object=meth,
 
 # Finding differentially methylated bases
 diffMeth=calculateDiffMeth(tiles, mc.cores=mc.cores)
-
+print("3")
 # Only needed to get subset of data
 #dmrs=getMethylDiff(diffMeth)
 
