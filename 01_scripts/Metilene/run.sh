@@ -68,7 +68,7 @@ if [ "$convert" = "TRUE" ]; then
 	group_A_string="${group_A_string:1}"
         group_B_string="${group_B_string:1}"
 	# Run perl script to create Metilene input Matrix
-	touch log1
+#	touch log1
 	time perl $path_to_scripts_folder/merge_to_matrix.pl --in1 $group_A_string --in2 $group_B_string --out "$path_to_data_folder/Metilene/converted/metilene_input_matrix.csv" --h1 A --h2 B &> log1
 	echo -e "\n\nMetilene input data is prepared.\n"
 fi
@@ -112,6 +112,7 @@ if [ "$callDMRs" = "TRUE" ]; then
 
 	# Run Metilene
 	touch log2
+	echo "time metilene --maxdist $dis_merge --mincpgs $minCG --minMethDiff $min_diff --threads $num_threads --groupA $group_A --groupB $group_B --minNoA $min_nonmissing_g1 --minNoB $min_nonmissing_g2 --valley $stringency_filter"
 	time metilene --maxdist $dis_merge --mincpgs $minCG --minMethDiff $min_diff --threads $num_threads --groupA $group_A --groupB $group_B --minNoA $min_nonmissing_g1 --minNoB $min_nonmissing_g2 --valley $stringency_filter "$path_to_data_folder/Metilene/converted/metilene_input_matrix.csv" > "$path_to_results_folder/Metilene/Metilene_DMRs_raw.tsv" 2> log2
 	echo -e "DMRs are called\n"
 fi
