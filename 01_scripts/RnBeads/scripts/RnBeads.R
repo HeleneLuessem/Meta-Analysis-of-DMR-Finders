@@ -3,12 +3,15 @@ suppressPackageStartupMessages(library(RnBeads))
 suppressPackageStartupMessages(library(RnBeads.hg38))
 cat("Done\n\n")
 
+parallel.setup(10)
+options(fftempdir="rnb_tmp")
 # Path to file containing the tool's parameters
 path_to_config_file<-"config.tsv"
 
 # Set RnBeads parameters to defauls
 coverage <- 10
 threshold <- 1
+tilingSize <- 5000
 
 # Directory where the bed files and the sample annotation file is located
 bed.dir <- "02_data/RnBeads/converted"
@@ -43,20 +46,34 @@ colnames(parameters) <- c("parameter", "value")
 options(digits=5)
 coverage	<- strtoi(parameters[parameters$parameter == "Minimum Read Coverage", ]$value)
 threshold	<- as.double(toString(parameters[parameters$parameter == "Max Quantile of NAs per Site", ]$value))
+tilingSize	<- strtoi(parameters[parameters$parameter == "Tiling Window Size", ]$value)
 
 cat(sprintf("\nCoverage: %s\n", coverage))
 cat(sprintf("\nThreshold: %s\n", threshold))
+cat(sprintf("\nWindow Size: %s\n", tilingSize))
 
-# Default tiles have a size of 5000 kb. Here 1000 / 500 bps are used
-REGION_SET <- c("tiling1kb", "tiling500bp", "tiling200bp")
+# Default tiles have a size of 5000 kb
 ASSEMBLY <- "hg38"
-rnb.load.annotation.from.db(REGION_SET, assembly=ASSEMBLY)
-# Here you can choose which output files you want (region.types are the 4 default types: tiling=5000, genes, promotors, cpgislands)
-#rnb.options(region.types=union(rnb.getOption("region.types"), REGION_SET))
-rnb.getOption("region.types")
+if (tilingSize == 200){
+	REGION_SET <- c("tiling200bp")
+	rnb.load.annotation.from.db(REGION_SET, assembly=ASSEMBLY)
+} else if (tilingSize == 500){
+	REGION_SET <- c("tiling500bp")
+	rnb.load.annotation.from.db(REGION_SET, assembly=ASSEMBLY)
+} else if (tilingSize == 1000){
+	REGION_SET <- c("tiling1kb")
+	rnb.load.annotation.from.db(REGION_SET, assembly=ASSEMBLY)
+} else if (tilingSize == 5000){
+	REGION_SET <- c("tiling")
+}
 
-rnb.options(region.types=c("tiling", "genes", "promotors", "cpgislands", "tiling1kb", "tiling500bp", "tiling200bp"))
-print("PEGION TYPES")
+#ASSEMBLY <- "hg38"
+#rnb.load.annotation.from.db(REGION_SET, assembly=ASSEMBLY)
+
+rnb.options(region.types=REGION_SET)
+
+#rnb.options(region.types=c("tiling", "genes", "promotors", "cpgislands", "tiling1kb", "tiling500bp", "tiling200bp"))
+print("REGION TYPES")
 rnb.getOption("region.types")
 
 # Import data (less runtime as no reports)
@@ -65,25 +82,19 @@ imp <- rnb.execute.import(data.source=data.source, data.type="bs.bed.dir",  dry.
 print("# Lines before Coverage Filter")
 nrow(meth(imp))
 
-# Try more cores
-setModuleNumCores(imp, 10L)
-
 # Replace low coverage sites with NA
 imp.filtered <- rnb.execute.low.coverage.masking(imp, coverage)$dataset
-
-# More cores
-setModuleNumCores(imp.filtered, 10L)
-
+nrow(imp.filtered)
 # Remove NA entries
-filtered.set.noNA <- rnb.execute.na.removal(imp.filtered)$dataset # TODO add again:, threshold)$dataset
+filtered.set.noNA <- rnb.execute.na.removal(imp.filtered, threshold)$dataset
 
-print("# Sites after Coverage Filter")
+print("# Sites after NA Removal")
 nrow(meth(filtered.set.noNA))
-
+nrow(filtered.set.noNA)
 rnb.set <- filtered.set.noNA
 
 # More cores
-setModuleNumCores(rnb.set, 10L)
+#setModuleNumCores(rnb.set, 10L)
 
 # Run differential methylation analysis (dont use rnb.executeDiffMeth as no results are written to folder)
 rnb.run.differential(rnb.set=rnb.set, dir.reports=report.dir)
