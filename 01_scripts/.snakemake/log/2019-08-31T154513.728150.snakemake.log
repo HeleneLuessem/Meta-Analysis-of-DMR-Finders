@@ -1,3 +1,0 @@
-WorkflowError in line 1 of /projects/student/s9helues/Meta-Analysis-of-DMR-Finders/01_scripts/snakefile:
-Config file config.yaml not found.
-  File "/projects/student/s9helues/Meta-Analysis-of-DMR-Finders/01_scripts/snakefile", line 1, in <module>
