@@ -20,6 +20,11 @@ methylKit=FALSE
 metilene=FALSE
 rnBeads=FALSE
 
+#Pros-Porcess Paramters
+PP_minlen=5
+PP_mindiff=0.05
+PP_minCpG=5
+
 # Start to create directory structure
 mkdir -p 02_data
 mkdir -p 02_data/prep
@@ -36,6 +41,9 @@ while IFS=$'\t', read -r -a config
 			"MethylKit")	methylKit=${config[1]}; t3="\n\t\t\"MethylKit_dummy.txt\",";;
 			"Metilene")	metilene=${config[1]};	t4="\n\t\t\"Metilene_dummy.txt\",";;
 			"RnBeads")	rnBeads=${config[1]};	t5="\n\t\t\"RnBeads_dummy.txt\"";;
+			"PP_minlen")	PP_minlen=${config[1]};;
+			"PP_mindiff")	PP_mindiff=${config[1]};;
+			"PP_minCpG")	PP_minCpG=${config[1]};;
 		esac
 	done < $path_to_config_file
 
@@ -83,4 +91,18 @@ if [ $rnBeads = "TRUE" ]; then
 fi
 
 snakemake --cores 12 --use-conda
+
+wait
+
+awk -vOFS='\t' -vmincpg="$PP_minCpG" -vminlen="$PP_minlen" -vmindiff="$PP_mindiff" '$4 >= mincpg && ($7 >= mindiff || $7 <= mindiff*(-1)) && ($3-$2+1) >= minlen {print}' '03_results/BSmooth/BSmooth_DMRs_std.tsv' > '03_results/BSmooth/BSmooth_DMRs_std_PP.tsv'
+
+awk -vOFS='\t' -vmincpg="$PP_minCpG" -vminlen="$PP_minlen" -vmindiff="$PP_mindiff" '$4 >= mincpg && ($7 >= mindiff || $7 <= mindiff*(-1)) && ($3-$2+1) >= minlen {print}' '03_results/DSS/DSS_DMRs_std.tsv' > '03_results/DSS/DSS_DMRs_std_PP.tsv'
+
+awk -vOFS='\t' -vmincpg="$PP_mindiff" -vminlen="$PP_minlen" '($7*100 >= mindiff || $7*100 <= mindiff*(-1)) && ($3-$2+1) >= minlen {print}' '03_results/MethylKit/MethylKit_DMRs_std.tsv' > '03_results/MethylKit/MethylKit_DMRs_std_PP.tsv'
+
+awk -vOFS='\t' -vmincpg="$PP_minCpG" -vminlen="$PP_minlen" -vmindiff="$PP_mindiff" '$4 >= mincpg && ($7 >= mindiff || $7 <= mindiff*(-1)) && ($3-$2+1) >= minlen {print}' '03_results/Metilene/Metilene_DMRs_std.tsv' > '03_results/Metilene/Metilene_DMRs_std_PP.tsv'
+
+awk -vOFS='\t' -vmincpg="$PP_minCpG" -vminlen="$PP_minlen" -vmindiff="$PP_mindiff" '$4 >= mincpg && ($7 >= mindiff || $7 <= mindiff*(-1)) && ($3-$2+1) >= minlen {print}' '03_results/RnBeads/RnBeads_DMRs_std.tsv' > '03_results/RnBeads/RnBeads_DMRs_std_PP.tsv'
+
+
 
