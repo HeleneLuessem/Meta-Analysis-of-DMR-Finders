@@ -2,18 +2,14 @@
 
 ## Dependencies
 
-* [RnBeads](https://rnbeads.org/installation.html) 
-* Metilene
-* MethylKit
-* IDR
-* R (Version )
+* Snakemake, Version 5.8.1
 
 ## Installation
 Workflow management system snakemake needs to be installed first. All other dependencies will be installed automatically during the first execution.
 
 ## How to run
-```R 
-"code"
+```bash 
+./run.sh
 ```
 
 ## Input Data Format
