@@ -135,9 +135,15 @@ Maximum Gap Loci	100000000
 # Should local correction be used
 Local Correction	TRUE
 
-#########
-# Plots #
-#########
+################
+# Post-Process #
+################
 
-# When set to TRUE will create venn diagrams of the output data
-Venn Diagrams	TRUE
+# Minimum DMR Length
+PP_minlen	5
+
+# Minimum Mean Methylation Difference Per DMR
+PP_mindiff	0.05
+
+# Minimum Number of CpGs per DMR
+PP_minCpG	3
