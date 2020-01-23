@@ -1,5 +1,0 @@
-Building DAG of jobs...
-MissingInputException in line 25 of /projects/student/s9helues/Meta-Analysis-of-DMR-Finders/01_scripts/snakefile:
-Missing input files for rule run_pre_processing:
-config.tsv
-data.csv
