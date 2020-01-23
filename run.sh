@@ -25,6 +25,8 @@ mkdir -p 02_data
 mkdir -p 02_data/prep
 mkdir -p 03_results
 
+cp config.tsv RB_config.tsv
+
 # Read in relevant parameters from config file
 while IFS=$'\t', read -r -a config
 	do
@@ -42,7 +44,7 @@ rm -f snakefile
 echo -e "configfile: \"config.yaml\"\n\n" >> snakefile
 
 # Add dummy rule
-echo -e "rule dummy:\n\tinput:$t1$t2$t3$t4$t5\n\tshell:\n\t\t\"rm -rf BSmooth_dummy.txt\"\n\n" >> snakefile
+echo -e "rule finalize:\n\tinput:$t1$t2$t3$t4$t5\n\tshell:\n\t\t\"rm -rf BSmooth_dummy.txt\"\n\n" >> snakefile
 
 # Add pre-processing rule
 echo -e "rule run_pre_processing:\n\toutput:\n\t\t\"data_prep.csv\"\n\tinput:\n\t\t\"data.csv\",\n\t\t\"config.tsv\"\n\tshell:\n\t\t\"01_scripts/Pre-Processing/pre-process.sh\"\n\n" >> snakefile
@@ -68,7 +70,7 @@ if [ $methylKit = "TRUE" ]; then
 fi
 if [ $metilene = "TRUE" ]; then
 	echo " - Metilene"
-	echo -e "rule run_Metilene:\n\tinput:\n\t\t\"data_prep.csv\"\n\toutput:\n\t\t\"03_results/Metilene/Metielne_DMRs_raw.tsv\",\n\t\t\"03_results/Metilene/Metilene_DMRs_std.tsv\",\n\t\t\"Metilene_dummy.txt\"\n\tconda:\n\t\t\"envs/Metilene.yml\"\n\tshell:\n\t\t\"01_scripts/Metilene/run.sh -i -d -o\"\n\n" >> snakefile
+	echo -e "rule run_Metilene:\n\tinput:\n\t\t\"data_prep.csv\"\n\toutput:\n\t\t\"03_results/Metilene/Metilene_DMRs_raw.tsv\",\n\t\t\"03_results/Metilene/Metilene_DMRs_std.tsv\",\n\t\t\"Metilene_dummy.txt\"\n\tconda:\n\t\t\"envs/Metilene.yml\"\n\tshell:\n\t\t\"01_scripts/Metilene/run.sh -i -d -o\"\n\n" >> snakefile
 	mkdir -p 02_data/Metilene
 	mkdir -p 03_results/Metilene
 fi
@@ -78,4 +80,8 @@ if [ $rnBeads = "TRUE" ]; then
 	mkdir -p 02_data/RnBeads
 	mkdir -p 03_results/RnBeads
 fi
+
+snakemake --cores 12 --use-conda
+
+
 
