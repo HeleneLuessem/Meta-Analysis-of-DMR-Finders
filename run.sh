@@ -84,3 +84,16 @@ fi
 
 snakemake --cores 12 --use-conda
 
+wait
+
+awk -vOFS='\t' -vmincpg="$PP_minCpG" -vminlen="$PP_minlen" -vmindiff="$PP_mindiff" '$4 >= mincpg && ($7 >= mindiff || $7 <= mindiff*(-1)) && ($3-$2+1) >= minlen {print}' '03_results/BSmooth/BSmooth_DMRs_std.tsv' > '03_results/BSmooth/BSmooth_DMRs_std_PP.tsv'
+
+awk -vOFS='\t' -vmincpg="$PP_minCpG" -vminlen="$PP_minlen" -vmindiff="$PP_mindiff" '$4 >= mincpg && ($7 >= mindiff || $7 <= mindiff*(-1)) && ($3-$2+1) >= minlen {print}' '03_results/DSS/DSS_DMRs_std.tsv' > '03_results/DSS/DSS_DMRs_std_PP.tsv'
+
+awk -vOFS='\t' -vmincpg="$PP_mindiff" -vminlen="$PP_minlen" '($7*100 >= mindiff || $7*100 <= mindiff*(-1)) && ($3-$2+1) >= minlen {print}' '03_results/MethylKit/MethylKit_DMRs_std.tsv' > '03_results/MethylKit/MethylKit_DMRs_std_PP.tsv'
+
+awk -vOFS='\t' -vmincpg="$PP_minCpG" -vminlen="$PP_minlen" -vmindiff="$PP_mindiff" '$4 >= mincpg && ($7 >= mindiff || $7 <= mindiff*(-1)) && ($3-$2+1) >= minlen {print}' '03_results/Metilene/Metilene_DMRs_std.tsv' > '03_results/Metilene/Metilene_DMRs_std_PP.tsv'
+
+awk -vOFS='\t' -vmincpg="$PP_minCpG" -vminlen="$PP_minlen" -vmindiff="$PP_mindiff" '$4 >= mincpg && ($7 >= mindiff || $7 <= mindiff*(-1)) && ($3-$2+1) >= minlen {print}' '03_results/RnBeads/RnBeads_DMRs_std.tsv' > '03_results/RnBeads/RnBeads_DMRs_std_PP.tsv'
+
+
