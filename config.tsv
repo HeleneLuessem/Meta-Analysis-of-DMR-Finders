@@ -20,7 +20,7 @@ RnBeads	TRUE
 ########################
 
 # Minimum read coverage required for the entries in the bed input files
-Minimum Read Coverage	10
+Minimum Read Coverage	5
 
 # Indicated whether the methylation information is for the single strands or merged
 Merged	TRUE
@@ -33,10 +33,10 @@ Number of Threads	10
 ########################
 
 # Minimum Length of a DMR
-Minimum DMR Length	50
+Minimum DMR Length	0
 
 # The minimum mean methylation difference for calling DMRs
-Minimum Mean Meth Difference	0.0
+Minimum Mean Meth Difference	0.1
 # #0.1 is default, but IDR requires also non-significant entries
 
 # Maximum pvalue allowed
@@ -47,7 +47,7 @@ P-value Cutoff	0.01
 ############################
 
 # When two DMRs are very close to each other and the distance (in bps) is less than this number, they will be merged into one.
-Maximum Distance between two CpGs in one DMR	300
+Maximum Distance between two CpGs in one DMR	100
 
 
 #######################################
@@ -55,17 +55,17 @@ Maximum Distance between two CpGs in one DMR	300
 #######################################
 
 # The minimum # of CpGs in a DMR
-Minimum Number of CpGs	10
+Minimum Number of CpGs	3
 
 #######################
 # Inputs for Metilene #
 #######################
 
 # Minimal # of non-missing values for estimating missing values in g1*
-Minimal Number of Non-Missing Values in g1	80
+Minimal Number of Non-Missing Values in g1	50
 
 # Minimal # of non-missing values for estimating missing values in g2*
-Minimal Number of Non-Missing Values in g2	80
+Minimal Number of Non-Missing Values in g2	50
 
 # Stringency of the valley filter (0.0 - 1.0)
 Stringency of Valley Filter	0.7
@@ -75,7 +75,7 @@ Stringency of Valley Filter	0.7
 ##################
 
 # A flag to indicate whether to apply smoothing in estimating mean methylation levels.
-Smoothing	TRUE
+Smoothing	FALSE
 
 Size of Smoothing Window [bp]	500
 
@@ -86,13 +86,13 @@ Equal Dispersion	FALSE
 Percentage of CG sites with significant p-values per DMR	0.5
 
 # A threshold for defining DML. In DML testing procedure, hypothesis test that the two groups means are equal is conducted at each CpG site. Here if ’delta’ is specified, the function will compute the posterior probability that the difference of the means are greater than delta,and then call DML based on that. For general design, this has to be set to 0.
-DML Delta	0
+DML Delta	0.1
 
 # When delta is not specified, this is the threshold of p-values for defining DML, e.g. Loci with p-values less than this threshold will be deemed DMLs. When delta is specified, CpG sites with posterior probability greater than 1-p.threshold are deemed DML.
-DML p threshold	0.001
+DML p threshold	0.00001
 
 # A threshold for defining DMR. In DML detection procedure, a hypothesis test that the two groups means are equal is conducted at each CpG site. Here if ’delta’ is specified, the function will compute the posterior probability that the difference of the means are greater than delta, and then construct DMR based on that.
-DMR Delta	0.01
+DMR Delta	0
 
 # A threshold of p-values for calling DMR. Loci with p-values less than this threshold will be picked and joint to form the DMRs.
 DMR p threshold	0.00001
@@ -103,21 +103,21 @@ DMR p threshold	0.00001
 
 # Minimum number of samples per replicate needed to cover a region
 # Missing data for uncovered bases/regions will appear as NAs
-Minimum Sample Number per Group	3
+Minimum Sample Number per Group	2
 
 # Size of tiling window
-Tiling Window Size	1000
+Tiling Window Size	200
 
 # Step size of tiling windows
-Tiling Window Step Size	1000
+Tiling Window Step Size	200
 
-:
+
 ######################
 # Inputs for RnBeads #
 ######################
 
 # Maximum quantile of NAs allowed per site. This must be a value between 0 and 1.
-Max Quantile of NAs per Site	0
+Max Quantile of NAs per Site	0.5
 
 ######################
 # Inputs for BSmooth #
