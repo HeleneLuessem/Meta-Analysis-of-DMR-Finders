@@ -1,4 +1,3 @@
-configfile: "config.yaml"
 
 
 rule dummy:
@@ -18,6 +17,8 @@ rule run_pre_processing:
 	input:
 		"data.csv",
 		"config.tsv"
+	threads:
+		10
 	shell:
 		"01_scripts/Pre-Processing/pre-process.sh"
 
@@ -33,6 +34,8 @@ rule run_BSmooth:
 		"BSmooth_dummy.txt"
 	conda:
 		"envs/BSmooth.yml"
+	threads:
+		10
 	shell:
 		"01_scripts/BSmooth/run.sh -i -d -o"
 
@@ -48,6 +51,8 @@ rule run_DSS:
 		"DSS_dummy.txt"
 	conda:
 		"envs/DSS.yml"
+	threads:
+		10
 	shell:
 		"01_scripts/DSS/run.sh -i -d -o"
 
@@ -61,6 +66,8 @@ rule run_MethylKit:
 		"MethylKit_dummy.txt"
 	conda:
 		"envs/MethylKit.yml"
+	threads:
+		10
 	shell:
 		"01_scripts/MethylKit/run.sh -i -d -o"
 
@@ -69,11 +76,13 @@ rule run_Metilene:
 	input:
 		"data_prep.csv"
 	output:
-		"03_results/Metilene/Metielne_DMRs_raw.tsv",
+		"03_results/Metilene/Metilene_DMRs_raw.tsv",
 		"03_results/Metilene/Metilene_DMRs_std.tsv",
 		"Metilene_dummy.txt"
 	conda:
 		"envs/Metilene.yml"
+	threads:
+		10
 	shell:
 		"01_scripts/Metilene/run.sh -i -d -o"
 
@@ -88,6 +97,8 @@ rule run_RnBeads:
 		"RnBeads_dummy.txt"
 	conda:
 		"envs/RnBeads.yml"
+	threads:
+		10
 	shell:
 		"01_scripts/RnBeads/run.sh -i -d -o"
 
