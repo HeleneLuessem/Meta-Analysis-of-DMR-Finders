@@ -105,7 +105,3 @@ awk -vOFS='\t' -vmincpg="$PP_minCpG" -vminlen="$PP_minlen" -vmindiff="$PP_mindif
 awk -vOFS='\t' -vmincpg="$PP_minCpG" -vminlen="$PP_minlen" -vmindiff="$PP_mindiff" '$4 >= mincpg && ($7 >= mindiff || $7 <= mindiff*(-1)) && ($3-$2+1) >= minlen {print}' '03_results/RnBeads/RnBeads_DMRs_std.tsv' > '03_results/RnBeads/RnBeads_DMRs_std_PP.tsv'
 
 
-<<<<<<< HEAD
-
-=======
->>>>>>> df63897037eb1c759196430e3b9c977da0260d9d
