@@ -5,7 +5,7 @@ path_to_scripts_folder="01_scripts/RnBeads/scripts"
 path_to_data_folder="02_data"
 path_to_results_folder="03_results"
 path_to_sample_annotation="$path_to_data_folder/RnBeads/sample_annotation.csv"
-path_to_config_file="config.tsv"
+path_to_config_file="RB_config.tsv"
 
 printHelp(){
 echo -e "" >&2
@@ -20,6 +20,8 @@ echo -e "  -o FILE\tFlag to indicate that DMRs should be called with Rnbeads" >&
 echo -e "  -o FILE\tFlag to indicate that the RnBeads output should be converted to the stnadard outpur format" >&2
 echo -e "" >&2
 }
+
+mkdir rnb_tmp
 
 convert=FALSE
 callDMRs=FALSE

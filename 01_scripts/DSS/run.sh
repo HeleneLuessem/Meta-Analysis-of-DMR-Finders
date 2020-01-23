@@ -6,8 +6,8 @@
 #       * Extra Chromosomes removed
 
 name="run.sh"
-path_to_config_file="config.tsv"
-path_to_data_file="data_prep.csv"
+path_to_config_file="DS_config.tsv"
+path_to_data_file="DS_data_prep.csv"
 path_to_scripts_folder="01_scripts/DSS/scripts"
 path_to_data_folder="02_data"
 path_to_results_folder="03_results"

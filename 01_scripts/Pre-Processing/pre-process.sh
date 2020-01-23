@@ -44,6 +44,7 @@ do
 	esac
 done < $path_to_config_file
 
+echo "$minCov"
 
 function pre_process {
 	line=$1
@@ -122,5 +123,16 @@ do
 		
 	fi
 done < $path_to_data_file	
+
+cp data_prep.csv BS_data_prep.csv
+cp data_prep.csv DS_data_prep.csv
+cp data_prep.csv MH_data_prep.csv
+cp data_prep.csv MT_data_prep.csv
+
+cp config.tsv BS_config.tsv
+cp config.tsv DS_config.tsv
+cp config.tsv MH_config.tsv
+cp config.tsv MT_config.tsv
+
 
 echo -e "\n All Input files pre-processed!"
