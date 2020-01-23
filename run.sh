@@ -41,7 +41,8 @@ while IFS=$'\t', read -r -a config
 
 # Start to create Snakemake file
 rm -f snakefile
-echo -e "configfile: \"config.yaml\"\n\n" >> snakefile
+touch snakefile
+#echo -e "configfile: \"config.yaml\"\n\n" >> snakefile
 
 # Add dummy rule
 echo -e "rule finalize:\n\tinput:$t1$t2$t3$t4$t5\n\tshell:\n\t\t\"rm -rf BSmooth_dummy.txt\"\n\n" >> snakefile
@@ -82,6 +83,4 @@ if [ $rnBeads = "TRUE" ]; then
 fi
 
 snakemake --cores 12 --use-conda
-
-
 
